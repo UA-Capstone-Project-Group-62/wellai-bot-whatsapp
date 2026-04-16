@@ -4,7 +4,7 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const { ReflectionService } = require('@grpc/reflection');
 
-const PORT = process.env.PORT || '50051';
+const PORT = process.env.GRPC_PORT || '50051';
 const PROTO_ROOT = path.resolve(__dirname, '..', 'proto');
 const BOT_PROTO_PATH = path.join(PROTO_ROOT, 'proto', 'bot', 'bot.proto');
 
