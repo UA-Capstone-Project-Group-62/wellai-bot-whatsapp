@@ -1,8 +1,11 @@
 const { startGrpcServer } = require('./grpc/server');
 const { startWhatsappServer } = require('./whatsapp/server');
 const { logger } = require('./lib/logger');
+const { env } = require('./lib/env');
 
 async function start() {
+	logger.info({ env }, 'Starting application with configuration');
+
 	const grpcServer = await startGrpcServer();
 	const whatsappHttpServer = startWhatsappServer();
 
