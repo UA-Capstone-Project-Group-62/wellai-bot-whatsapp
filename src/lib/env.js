@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const env = {
 	grpcPort: Number(process.env.GRPC_PORT || 50051),
+	agentServiceAddr: process.env.AGENT_SERVICE_ADDR || 'localhost:50052',
 	whatsappPort: Number(process.env.WHATSAPP_PORT || 5000),
 	whatsappVerifyToken: process.env.WHATSAPP_VERIFY_TOKEN,
 	whatsappAccessToken: process.env.WHATSAPP_ACCESS_TOKEN,
