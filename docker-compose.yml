@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: wellai_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - wellai_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: wellai_bot
+    ports:
+      - "5000:5000"
+      - "50051:50051"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - MONGO_DB_NAME=wellai_bot
+      - GRPC_PORT=50051
+      - AGENT_SERVICE_ADDR=localhost:50052
+      - WHATSAPP_PORT=5000
+      - WHATSAPP_VERIFY_TOKEN=${WHATSAPP_VERIFY_TOKEN}
+      - WHATSAPP_ACCESS_TOKEN=${WHATSAPP_ACCESS_TOKEN}
+      - WHATSAPP_PHONE_NUMBER_ID=${WHATSAPP_PHONE_NUMBER_ID}
+      - LOG_LEVEL=info
+      - LOG_PRETTY=true
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - wellai_network
+
+volumes:
+  mongo_data:
+
+networks:
+  wellai_network:
+    driver: bridge

@@ -1,0 +1,18 @@
+Welcome to Smart Health Connect 👋
+
+Before continuing, please review the following:
+
+By using this WhatsApp chatbot, you consent to the collection and processing of information you provide for the purpose of:
+• Booking and managing appointments
+• Responding to enquiries
+• Providing healthcare-related support services
+• Sending appointment reminders and updates
+
+Important Information:
+• Your information will be handled securely and in accordance with applicable privacy and data protection laws.
+• Do not share sensitive medical emergencies through this chat.
+• Conversations may be monitored by authorised clinic staff for quality and support purposes.
+• You may request human assistance at any time.
+• You may opt out of this service by replying STOP.
+
+By continuing the conversation, you are agreeing to the collection and processing of your information for the purposes listed above.

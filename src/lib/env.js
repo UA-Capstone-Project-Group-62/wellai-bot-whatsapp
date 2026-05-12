@@ -10,6 +10,9 @@ const env = {
 	nodeEnv: process.env.NODE_ENV || 'development',
 	logLevel: process.env.LOG_LEVEL || 'info',
 	logPretty: process.env.LOG_PRETTY,
+	mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017',
+	mongoDbName: process.env.MONGO_DB_NAME || 'wellai_bot',
+	termsConditionsPath: process.env.TERMS_CONDITIONS_PATH || 'terms-conditions.txt',
 };
 
 module.exports = {

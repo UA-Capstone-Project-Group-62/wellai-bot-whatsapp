@@ -5,6 +5,7 @@ const { ReflectionService } = require('@grpc/reflection');
 const { env } = require('../lib/env');
 const { logger } = require('../lib/logger');
 const { sendHandler } = require('./handlers/send-handler');
+const { getMessagesHandler } = require('./handlers/get-messages-handler');
 
 const PROTO_ROOT = path.resolve(__dirname, '..', '..', 'proto');
 const BOT_PROTO_PATH = path.join(PROTO_ROOT, 'proto', 'bot', 'bot.proto');
@@ -35,6 +36,7 @@ async function startGrpcServer() {
 
 	server.addService(botProto.BotService.service, {
 		send: sendHandler,
+		getMessages: getMessagesHandler,
 	});
 
 	const reflection = new ReflectionService(packageDefinition);

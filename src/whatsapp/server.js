@@ -2,6 +2,7 @@ const express = require('express');
 const { env } = require('../lib/env');
 const { logger } = require('../lib/logger');
 const { processIncomingWhatsappMessage } = require('./events');
+const { storeConversationId } = require('../lib/db');
 
 function startWhatsappServer() {
 	const app = express();
@@ -24,11 +25,19 @@ function startWhatsappServer() {
 		logger.info({ payload: req.body }, 'Webhook event received');
 
 		try {
-			const message = req.body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+			const value = req.body.entry?.[0]?.changes?.[0]?.value;
+			const message = value?.messages?.[0];
 
 			if (message) {
 				const from = message.from;
 				const text = message.text?.body;
+				const phoneNumberId = value?.metadata?.phone_number_id;
+				const waId = value?.contacts?.[0]?.wa_id;
+
+				if (phoneNumberId && waId) {
+					const conversationId = `${phoneNumberId}_${waId}`;
+					await storeConversationId(from, conversationId);
+				}
 
 				logger.info({ from, text }, 'Inbound WhatsApp message parsed');
 
