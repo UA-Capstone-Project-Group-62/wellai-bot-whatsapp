@@ -43,7 +43,7 @@ Update `.env` with your real values based on `.env.example`.
 ## Configure WhatsApp bot
 
 1. Create or open your Meta app and add WhatsApp product.
-2. Get credentials from Meta and set them in `.env`.
+2. Get access token from Meta API dashboard (Your App -> Testing -> Open Graph API Explorer) and set them in `.env`.
 3. Run the WhatsApp service:
 
 ```bash
@@ -57,7 +57,7 @@ ngrok http <WHATSAPP_PORT> # default: 5000
 ```
 
 1. Copy the generated public URL from ngrok (for example `https://abc123.ngrok-free.app`).
-2. In WhatsApp Developer Dashboard webhook settings:
+2. In WhatsApp Developer Dashboard webhook settings (Use cases -> Customize -> Step 2 -> Configure Webhooks):
    - Callback URL: `<ngrok-public-url>/webhook`
-   - Verify token: same value as your `WHATSAPP_VERIFY_TOKEN` in `.env`
+   - Verify token: same value as your `WHATSAPP_VERIFY_TOKEN` in `.env` (can be any random string)
 3. Subscribe to the needed webhook fields in the dashboard.
