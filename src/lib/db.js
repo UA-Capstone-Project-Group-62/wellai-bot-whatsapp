@@ -29,13 +29,7 @@ async function seedUsers() {
 		return;
 	}
 
-	const users = [
-		{ phoneNumber: '61434797285', termsAccepted: true },
-		{ phoneNumber: '60123456789', termsAccepted: false },
-		{ phoneNumber: '65987654321', termsAccepted: true },
-		{ phoneNumber: '447700900123', termsAccepted: false },
-		{ phoneNumber: '918888777666', termsAccepted: true },
-	];
+	const users = [];
 
 	await collection.insertMany(users);
 	logger.info({ count: users.length }, 'Seeded users collection');
