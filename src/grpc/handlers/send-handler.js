@@ -1,4 +1,5 @@
 const { logger } = require('../../lib/logger');
+const { storeMessage } = require('../../lib/db');
 const { sendWhatsappTextMessage } = require('../../whatsapp/apis');
 
 async function sendHandler(call, callback) {
@@ -20,6 +21,8 @@ async function sendHandler(call, callback) {
 
 	try {
 		await sendWhatsappTextMessage({ to: user_id, text: content });
+		await storeMessage(user_id, content, true);
+
 		callback(null, {
 			success: true,
 			message: `Message sent to user ${user_id}`,
