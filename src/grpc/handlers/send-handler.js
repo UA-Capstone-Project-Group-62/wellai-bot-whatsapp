@@ -1,4 +1,5 @@
 const { logger } = require('../../lib/logger');
+const { storeMessage } = require('../../lib/db');
 const { sendWhatsappTextMessage } = require('../../whatsapp/apis');
 
 async function sendHandler(call, callback) {
@@ -19,7 +20,9 @@ async function sendHandler(call, callback) {
 	logger.info({ user_id, content }, 'BotService.Send request received');
 
 	try {
+		await storeMessage(user_id, content, true);
 		await sendWhatsappTextMessage({ to: user_id, text: content });
+
 		callback(null, {
 			success: true,
 			message: `Message sent to user ${user_id}`,
