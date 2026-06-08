@@ -20,8 +20,8 @@ async function sendHandler(call, callback) {
 	logger.info({ user_id, content }, 'BotService.Send request received');
 
 	try {
-		await sendWhatsappTextMessage({ to: user_id, text: content });
 		await storeMessage(user_id, content, true);
+		await sendWhatsappTextMessage({ to: user_id, text: content });
 
 		callback(null, {
 			success: true,
