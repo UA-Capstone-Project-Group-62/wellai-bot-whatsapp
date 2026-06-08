@@ -31,6 +31,11 @@ async function seedUsers() {
 
 	const users = [];
 
+	if (users.length === 0) {
+		logger.info('No users to seed');
+		return;
+	}
+
 	await collection.insertMany(users);
 	logger.info({ count: users.length }, 'Seeded users collection');
 }
