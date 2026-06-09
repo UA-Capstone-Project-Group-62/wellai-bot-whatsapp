@@ -63,16 +63,16 @@ async function setTermsAccepted(phoneNumber, accepted = true) {
 		{ phoneNumber },
 		{ $set: { termsAccepted: accepted } },
 	);
-	logger.info({ phoneNumber, termsAccepted: accepted }, 'Updated termsAccepted status');
+	logger.info(
+		{ phoneNumber, termsAccepted: accepted },
+		'Updated termsAccepted status',
+	);
 	return result.modifiedCount > 0;
 }
 
 async function storeConversationId(phoneNumber, conversationId) {
 	const collection = await getCollection('users');
-	await collection.updateOne(
-		{ phoneNumber },
-		{ $set: { conversationId } },
-	);
+	await collection.updateOne({ phoneNumber }, { $set: { conversationId } });
 	logger.info({ phoneNumber, conversationId }, 'Stored conversation ID');
 }
 
@@ -106,6 +106,27 @@ async function getMessages(phoneNumber, count) {
 	}));
 }
 
+async function setPreferredLanguage(phoneNumber, language) {
+	const collection = await getCollection('users');
+	await collection.updateOne(
+		{ phoneNumber },
+		{
+			$set: {
+				preferredLanguage: language,
+				updatedAt: new Date(),
+			},
+		},
+		{ upsert: true },
+	);
+	logger.info({ phoneNumber, language }, 'Preferred language saved');
+}
+
+async function getPreferredLanguage(phoneNumber) {
+	const collection = await getCollection('users');
+	const user = await collection.findOne({ phoneNumber });
+	return user?.preferredLanguage || null;
+}
+
 async function close() {
 	if (client) {
 		await client.close();
@@ -122,6 +143,8 @@ module.exports = {
 	addUserIfNotExists,
 	getUser,
 	setTermsAccepted,
+	setPreferredLanguage,
+	getPreferredLanguage,
 	storeConversationId,
 	getConversationId,
 	storeMessage,

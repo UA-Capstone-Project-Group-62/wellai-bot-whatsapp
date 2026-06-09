@@ -53,7 +53,31 @@ async function getConversationMessages(conversationId, count) {
 	return allMessages.slice(0, count);
 }
 
+async function sendWhatsappInteractiveMessage({ to, bodyText, buttons }) {
+	const response = await whatsappApi.post(
+		`/${env.whatsappPhoneNumberId}/messages`,
+		{
+			messaging_product: 'whatsapp',
+			to,
+			type: 'interactive',
+			interactive: {
+				type: 'button',
+				body: { text: bodyText },
+				action: {
+					buttons: buttons.map((b) => ({
+						type: 'reply',
+						reply: { id: b.id, title: b.title },
+					})),
+				},
+			},
+		},
+	);
+
+	return response.data;
+}
+
 module.exports = {
 	sendWhatsappTextMessage,
+	sendWhatsappInteractiveMessage,
 	getConversationMessages,
 };
