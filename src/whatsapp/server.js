@@ -31,6 +31,7 @@ function startWhatsappServer() {
 			if (message) {
 				const from = message.from;
 				const text = message.text?.body;
+				const interactive = message.interactive;
 				const phoneNumberId = value?.metadata?.phone_number_id;
 				const waId = value?.contacts?.[0]?.wa_id;
 
@@ -39,11 +40,12 @@ function startWhatsappServer() {
 					await storeConversationId(from, conversationId);
 				}
 
-				logger.info({ from, text }, 'Inbound WhatsApp message parsed');
+				logger.info({ from, text, interactive }, 'Inbound WhatsApp message parsed');
 
 				await processIncomingWhatsappMessage({
 					from,
 					text,
+					interactive,
 					rawMessage: message,
 					rawPayload: req.body,
 				});
