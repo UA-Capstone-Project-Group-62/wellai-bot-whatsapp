@@ -9,7 +9,10 @@ const {
 	getPreferredLanguage,
 	storeMessage,
 } = require('../lib/db');
-const { sendWhatsappTextMessage, sendWhatsappInteractiveMessage } = require('./apis');
+const {
+	sendWhatsappTextMessage,
+	sendWhatsappInteractiveMessage,
+} = require('./apis');
 
 const LANGUAGE_MAP = {
 	lang_en: 'english',
@@ -53,7 +56,12 @@ async function sendLanguageSelection(phoneNumber) {
 	});
 }
 
-async function processIncomingWhatsappMessage({ from, text, interactive, rawMessage }) {
+async function processIncomingWhatsappMessage({
+	from,
+	text,
+	interactive,
+	rawMessage,
+}) {
 	logger.info(
 		{ from, text: text || '', interactive, messageId: rawMessage?.id || '' },
 		'Inbound WhatsApp message received for processing',

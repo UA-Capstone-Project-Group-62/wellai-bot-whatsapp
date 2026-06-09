@@ -63,16 +63,16 @@ async function setTermsAccepted(phoneNumber, accepted = true) {
 		{ phoneNumber },
 		{ $set: { termsAccepted: accepted } },
 	);
-	logger.info({ phoneNumber, termsAccepted: accepted }, 'Updated termsAccepted status');
+	logger.info(
+		{ phoneNumber, termsAccepted: accepted },
+		'Updated termsAccepted status',
+	);
 	return result.modifiedCount > 0;
 }
 
 async function storeConversationId(phoneNumber, conversationId) {
 	const collection = await getCollection('users');
-	await collection.updateOne(
-		{ phoneNumber },
-		{ $set: { conversationId } },
-	);
+	await collection.updateOne({ phoneNumber }, { $set: { conversationId } });
 	logger.info({ phoneNumber, conversationId }, 'Stored conversation ID');
 }
 

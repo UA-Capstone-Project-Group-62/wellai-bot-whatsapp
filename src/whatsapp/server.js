@@ -40,7 +40,10 @@ function startWhatsappServer() {
 					await storeConversationId(from, conversationId);
 				}
 
-				logger.info({ from, text, interactive }, 'Inbound WhatsApp message parsed');
+				logger.info(
+					{ from, text, interactive },
+					'Inbound WhatsApp message parsed',
+				);
 
 				await processIncomingWhatsappMessage({
 					from,
