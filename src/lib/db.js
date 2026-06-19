@@ -93,17 +93,25 @@ async function storeMessage(phoneNumber, content, fromBot = false) {
 	logger.debug({ phoneNumber, fromBot }, 'Message stored');
 }
 
+// Map raw message documents to the bot.proto Message shape.
+// Bot-authored messages are flagged with is_bot rather than overloading user_id,
+// so the user_id always reflects the real conversation participant.
+function mapMessages(documents, phoneNumber) {
+	return documents.map((msg) => ({
+		user_id: phoneNumber,
+		content: msg.content,
+		is_bot: Boolean(msg.fromBot),
+	}));
+}
+
 async function getMessages(phoneNumber, count) {
 	const collection = await getCollection('messages');
-	const messages = await collection
+	const documents = await collection
 		.find({ phoneNumber })
 		.sort({ timestamp: -1 })
 		.limit(count)
 		.toArray();
-	return messages.map((msg) => ({
-		user_id: msg.fromBot ? 'bot' : phoneNumber,
-		content: msg.content,
-	}));
+	return mapMessages(documents, phoneNumber);
 }
 
 async function setPreferredLanguage(phoneNumber, language) {
@@ -149,5 +157,6 @@ module.exports = {
 	getConversationId,
 	storeMessage,
 	getMessages,
+	mapMessages,
 	close,
 };
